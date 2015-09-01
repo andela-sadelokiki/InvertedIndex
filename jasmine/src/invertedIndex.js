@@ -1,8 +1,10 @@
 "use strict";
 
 var json = require("../books.json"),
+//Create index constructor
     Index = function() {};
 
+//Create createIndex prototype of Index constructor
 Index.prototype.createIndex = function(filePath) {
     var dict = {};
     for (var i in json) {
@@ -27,9 +29,14 @@ Index.prototype.createIndex = function(filePath) {
     }
     return dict;
 };
-var index1 = new Index(),
-    getIndex = index1.createIndex(json);
 
+//Create new instance of Index constructor
+var index1 = new Index(),
+
+//Call getIndex method on new instance on Index constructor
+getIndex = index1.createIndex(json);
+
+//Create searchIndex prototype of Index constructor
 Index.prototype.searchIndex = function(terms) {
     var check = {};
     if (arguments) {
@@ -54,4 +61,6 @@ Index.prototype.searchIndex = function(terms) {
     }
     return check;
 };
+
+//Call searchIndex method on new instance on Index constructor
 var searchIndex = index1.searchIndex(["Alice", "in", "Wonderland", "slept"]);
