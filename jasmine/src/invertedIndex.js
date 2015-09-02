@@ -31,10 +31,10 @@ Index.prototype.createIndex = function(filePath) {
 };
 
 //Create new instance of Index constructor
-var index1 = new Index(),
+var index1 = new Index();
 
 //Call getIndex method on new instance on Index constructor
-getIndex = index1.createIndex(json);
+var getIndex = index1.createIndex(json);
 
 //Create searchIndex prototype of Index constructor
 Index.prototype.searchIndex = function(terms) {
@@ -64,3 +64,7 @@ Index.prototype.searchIndex = function(terms) {
 
 //Call searchIndex method on new instance on Index constructor
 var searchIndex = index1.searchIndex(["Alice", "in", "Wonderland", "slept"]);
+
+module.exports = Index;
+
+
