@@ -1,12 +1,27 @@
 "use strict";
 
-var json = require("../books.json"),
+// function readJson loads the books.json file in a synchronous way because the data is needed 
+// during page load.
+function readJson(filePath) {
+    var json;
+    $.ajax({
+        'async': false,
+        'url': filePath,
+        'dataType': "json",
+        'success': function(data) {
+            json = data;
+        }
+    });
+    return json;
+}
+
 //Create index constructor
-    Index = function() {};
+var Index = function() {};
 
 //Create createIndex prototype of Index constructor
 Index.prototype.createIndex = function(filePath) {
     var dict = {};
+    var json = readJson(filePath);
     for (var i in json) {
         for (var key in json[i]) {
             var words = json[i][key].split(' ');
@@ -34,15 +49,20 @@ Index.prototype.createIndex = function(filePath) {
 var index1 = new Index();
 
 //Call getIndex method on new instance on Index constructor
-var getIndex = index1.createIndex(json);
+var getIndex = index1.createIndex;
+
+//Filepath is passed in to get the list of words in the json file.
+var list = getIndex("books.json");
+
+
 
 //Create searchIndex prototype of Index constructor
 Index.prototype.searchIndex = function(terms) {
     var check = {};
     if (arguments) {
         for (var i in arguments) {
-            if (getIndex.hasOwnProperty(arguments[i])) {
-                check[arguments[i]] = getIndex[arguments[i]];
+            if (list.hasOwnProperty(arguments[i])) {
+                check[arguments[i]] = list[arguments[i]];
             } else {
                 check[arguments[i]] = "not found";
             }
@@ -50,21 +70,18 @@ Index.prototype.searchIndex = function(terms) {
     }
     if (typeof terms === 'object') {
         for (var i in terms) {
-            if (getIndex.hasOwnProperty(terms[i])) {
-                check[terms[i]] = getIndex[terms[i]];
+            if (list.hasOwnProperty(terms[i])) {
+                check[terms[i]] = list[terms[i]];
             } else {
                 check[terms[i]] = "not found";
             }
         }
     } else {
-        check[terms] = getIndex[terms];
+        check[terms] = list[terms];
     }
     return check;
 };
 
-//Call searchIndex method on new instance on Index constructor
-var searchIndex = index1.searchIndex(["Alice", "in", "Wonderland", "slept"]);
-
-module.exports = Index;
-
+var search = index1.searchIndex;
+var searchResult = search("Alice", "in", "Wonderland");
 
