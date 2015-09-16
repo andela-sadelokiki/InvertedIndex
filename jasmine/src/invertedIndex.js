@@ -14,7 +14,7 @@ function readJson(filePath) {
         }
     });
     return json;
-};
+}
 
 //Create index constructor
 var Index = function() {};
