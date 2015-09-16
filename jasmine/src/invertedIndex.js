@@ -15,6 +15,8 @@ function readJson(filePath) {
     });
     return json;
 }
+//Assign data from 'books.json' to jsonArray
+var jsonArray = readJson('books.json');
 
 //Create index constructor
 var Index = function() {};
@@ -104,3 +106,5 @@ Index.prototype.searchIndex = function(terms) {
     //return the array check when the function is called
     return check;
 };
+
+var searchResult = Index.prototype.searchIndex;
