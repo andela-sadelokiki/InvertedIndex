@@ -21,8 +21,8 @@ var Index = function() {};
 
 //Create createIndex prototype of Index constructor
 Index.prototype.createIndex = function(filePath) {
-    //Object "dict" is initialized, this is where the index will be.
-    var dict = {};
+    //Object "bookIndex" is initialized, this is where the index will be.
+    var bookIndex = {};
     //the JSON array gotten from the filepath is stored in json
     var json = readJson(filePath);
     //Loop through the json array to get the elements
@@ -36,38 +36,38 @@ Index.prototype.createIndex = function(filePath) {
                  *regular expression is also used to remove commas, colons and fullstops.
                  */
                 var word = words[j].replace(/[:,.]/g, '');
-                //Check if Object dict has key, word
-                if (dict.hasOwnProperty(word)) {
+                //Check if Object bookIndex has key, word
+                if (bookIndex.hasOwnProperty(word)) {
                     /*if it does, we push the value which is the array position in array 
-                     *called posArr
+                     *called positionArray
                      */
-                    var posArr = dict[word];
+                    var positionArray = bookIndex[word];
                     //check if the index exists
                     if (parseInt(i)) {
                         //assign indexes to position
                         var position = parseInt(i);
-                        //check if the position already does not exist in posArr, push to posArr
-                        if (posArr.indexOf(position) < 0) {
-                            posArr.push(position);
-                            /*assign dict[word] as keys and posArr as corresponding values of object
-                             *dict
+                        //check if the position already does not exist in positionArray, push to positionArray
+                        if (positionArray.indexOf(position) < 0) {
+                            positionArray.push(position);
+                            /*assign bookIndex[word] as keys and positionArray as corresponding values of object
+                             *bookIndex
                              */
-                            dict[word] = posArr;
+                            bookIndex[word] = positionArray;
                         }
                     }
-                    /*else if position exists,assign dict[word] as keys and [parseInt(i)] as 
-                     *corresponding values of object dict   
+                    /*else if position exists,assign bookIndex[word] as keys and [parseInt(i)] as 
+                     *corresponding values of object bookIndex   
                      */
                 } else {
-                    dict[word] = [parseInt(i)];
+                    bookIndex[word] = [parseInt(i)];
                 }
             }
         }
     }
-    /*return object "dict", containing the words and corresponding 
+    /*return object "bookIndex", containing the words and corresponding 
      *index when createIndex method is called
      */
-    return dict;
+    return bookIndex;
 };
 
 //Create new instance of Index constructor
@@ -76,51 +76,33 @@ var index1 = new Index();
 //Call getIndex method on new instance on Index constructor
 var getIndex = index1.createIndex;
 
-//Filepath is passed in to get the list of words in the json file.
-var list = getIndex("books.json");
-
+//Filepath is passed in to get the bookList of words in the json file.
+var bookList = getIndex("books.json");
 
 
 //Create searchIndex prototype of Index constructor
 Index.prototype.searchIndex = function(terms) {
-    //Object "check" is initialized, this is where the search results will be.
-    var check = {};
-    //check for single terms as arguments
-    if (arguments) {
-        //loop through the argument
-        for (var i in arguments) {
-            //check if it exists in list
-            if (list.hasOwnProperty(arguments[i])) {
-                //assign check[arguments[i]] as keys and list[arguments[i]] as 
-                //corresponding values of object check
-                check[arguments[i]] = list[arguments[i]];
-            }
-            //if it does not exist in the list, print "not found"
-            else {
-                check[arguments[i]] = "not found";
-            }
-        }
-    }
-    //check for multiple terms as arguments
+    //Array "check" is initialized, this is where the search results will be.
+    var check = [];
+    // assign arguments to variable params
+    var params = arguments
+
+    //check for multiple terms
     if (typeof terms === 'object') {
-        //loop through the arguments
-        for (var i in terms) {
-            //check if it exists in list
-            if (list.hasOwnProperty(terms[i])) {
-                //assign check[terms[i]] as keys and list[terms[i]] as 
-                //corresponding values of object check
-                check[terms[i]] = list[terms[i]];
-            } //if it does not exist in the list, print "not found"
-            else {
-                check[terms[i]] = "not found";
+        params = terms
+    }
+
+    /*Loop through booklist to check if the terms exist, then push the corresponding index
+    into an array*/
+    for (var word in bookList) {
+        for (var j in params) {
+            if (word === params[j]) {
+                for (var k in bookList[word]) {
+                    check.push(parseInt(bookList[word][k]));
+                }
             }
         }
-    } else {
-        check[terms] = list[terms];
     }
-    //return object "check", containing the searchresults and corresponding index 
-    //when searchIndex method is called 
+    //return the array check when the function is called
     return check;
 };
-
-var search = index1.searchIndex;

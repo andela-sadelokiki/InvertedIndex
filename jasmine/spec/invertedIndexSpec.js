@@ -20,28 +20,30 @@ describe("Index", function() {
                     expect(type).toBe("string");
                 }
             }
-
         });
     });
 
 });
 
 describe("Populate Index", function() {
-    var list;
+    var bookList;
 
     beforeEach(function() {
-        list = getIndex('books.json');
+        bookList = getIndex('books.json');
+
     });
 
     it("should ensure index is created once JSON file has been read", function() {
-        expect(list).toBeDefined();
+        expect(bookList).toBeDefined();
+
     });
 
     it("should ensure that index is correct", function() {
-        expect(list.Wonderland).toEqual([0]);
+        expect(bookList.Wonderland).toEqual([0]);
+
     });
     it("should ensure index is not overwritten by a new JSON file.", function() {
-        expect(list.of).toEqual([0, 1]);
+        expect(bookList.of).toEqual([0, 1]);
     });
 });
 
@@ -49,35 +51,36 @@ describe("Search Index", function() {
     var searchResult;
 
     beforeEach(function() {
-        searchResult = search("Alice", "in", "Wonderland");
+        searchResult = Index.prototype.searchIndex
     })
 
+    it("should be defined", function() {
+        expect(searchResult).toBeDefined();
+    });
+
     it("should ensure index returns the correct results when searched.", function() {
-        expect(searchResult.Alice).toEqual([0]);
+        expect(searchResult("Lord")).toEqual([1]);
+        expect(searchResult("of")).toEqual([0, 1]);
+        expect(searchResult("Alice")).toEqual([0]);
     });
+
     it("should ensure searchIndex can handle a varied number of search terms as arguments.", function() {
-        expect(searchResult).toEqual({
-            "Alice": [0],
-            "in": [0],
-            "Wonderland": [0]
-        });
+        expect(searchResult("Alice", "in", "Rings")).toEqual([0, 0, 1]);
     });
+
+
     it("should ensure searchIndex can handle an array of search terms.", function() {
-        searchResult = search(["Alice", "in", "Wonderland"])
-        expect(searchResult).toEqual({
-            "Alice,in,Wonderland": 'not found',
-            "Alice": [0],
-            "in": [0],  
-            "Wonderland": [0]
-        });
+        expect(searchResult(["Alice", "in", "Rings"])).toEqual([0, 0, 1]);
     });
 });
 
+
 describe("Get Index", function() {
 
-    var list = getIndex('books.json');
+    var bookList = getIndex('books.json');
 
     it("should ensure getIndex method takes a string argument that specifies the location of the JSON data", function() {
-        expect(list).toBeDefined();
+        expect(bookList).toBeDefined();
+
     });
 });
