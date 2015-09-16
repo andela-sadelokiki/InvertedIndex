@@ -1,7 +1,8 @@
 "use strict";
 
-// function readJson loads the books.json file in a synchronous way because the data is needed 
-// during page load.
+/* function readJson loads the books.json file in a synchronous way because the data is needed 
+ * during page load.
+ */
 function readJson(filePath) {
     var json;
     $.ajax({
@@ -31,12 +32,15 @@ Index.prototype.createIndex = function(filePath) {
             //the elements are split into 'text' and 'titles' and stored in words as arrays
             var words = json[i][key].split(' ');
             for (var j in words) {
-                //loop through the titles and texts, gets each word and assigns to word
-                //regular expression is also used to remove commas, colons and fullstops.
+                /*loop through the titles and texts, gets each word and assigns to word
+                 *regular expression is also used to remove commas, colons and fullstops.
+                 */
                 var word = words[j].replace(/[:,.]/g, '');
                 //Check if Object dict has key, word
                 if (dict.hasOwnProperty(word)) {
-                    //if it does, we push the value which is the array position in array called posArr
+                    /*if it does, we push the value which is the array position in array 
+                     *called posArr
+                     */
                     var posArr = dict[word];
                     //check if the index exists
                     if (parseInt(i)) {
@@ -45,19 +49,24 @@ Index.prototype.createIndex = function(filePath) {
                         //check if the position already does not exist in posArr, push to posArr
                         if (posArr.indexOf(position) < 0) {
                             posArr.push(position);
-                            //assign dict[word] as keys and posArr as corresponding values of object dict
+                            /*assign dict[word] as keys and posArr as corresponding values of object
+                             *dict
+                             */
                             dict[word] = posArr;
                         }
                     }
-                    //else if position exists,assign dict[word] as keys and [parseInt(i)] as 
-                    //corresponding values of object dict   
+                    /*else if position exists,assign dict[word] as keys and [parseInt(i)] as 
+                     *corresponding values of object dict   
+                     */
                 } else {
                     dict[word] = [parseInt(i)];
                 }
             }
         }
     }
-    //return object "dict", containing the words and corresponding index when createIndex method is called 
+    /*return object "dict", containing the words and corresponding 
+     *index when createIndex method is called
+     */
     return dict;
 };
 
