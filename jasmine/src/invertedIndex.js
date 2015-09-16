@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /* function readJson loads the books.json file in a synchronous way because the data is needed 
  * during page load.
@@ -8,13 +8,13 @@ function readJson(filePath) {
     $.ajax({
         'async': false,
         'url': filePath,
-        'dataType': "json",
+        'dataType': 'json',
         'success': function(data) {
             json = data;
         }
     });
     return json;
-}
+};
 
 //Create index constructor
 var Index = function() {};
@@ -77,21 +77,19 @@ var index1 = new Index();
 var getIndex = index1.createIndex;
 
 //Filepath is passed in to get the bookList of words in the json file.
-var bookList = getIndex("books.json");
-
+var bookList = getIndex('books.json');
 
 //Create searchIndex prototype of Index constructor
 Index.prototype.searchIndex = function(terms) {
     //Array "check" is initialized, this is where the search results will be.
     var check = [];
     // assign arguments to variable params
-    var params = arguments
+    var params = arguments;
 
     //check for multiple terms
     if (typeof terms === 'object') {
-        params = terms
+        params = terms;
     }
-
     /*Loop through booklist to check if the terms exist, then push the corresponding index
     into an array*/
     for (var word in bookList) {
