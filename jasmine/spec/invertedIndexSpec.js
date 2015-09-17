@@ -11,7 +11,7 @@ describe('Index', function() {
         it('should check that json array contains a property whose value is a string', function() {
             for (var i in jsonArray) {
                 for (var k in jsonArray[i]) {
-                    expect(typeof jsonArray[i][k]).toBe("string");
+                    expect(typeof jsonArray[i][k]).toEqual(jasmine.any(String));
                 }
             }
         });
