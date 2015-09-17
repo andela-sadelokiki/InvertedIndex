@@ -28,12 +28,13 @@ Index.prototype.createIndex = function(filePath) {
     //the JSON array gotten from the filepath is stored in json
     var json = readJson(filePath);
     //Loop through the json array to get the elements
-    for (var i in json) {
-        //loop through the array elements 
-        for (var key in json[i]) {
+    for (var i = 0; i < json.length; i++) {
+        //loop through the array elements and assign each to 'jsonObject'
+        var jsonObject = json[i];
+        for (var key in jsonObject) {
             //the elements are split into 'text' and 'titles' and stored in words as arrays
-            var words = json[i][key].split(' ');
-            for (var j in words) {
+            var words = jsonObject[key].split(' ');
+            for (var j = 0; j < words.length; j++) {
                 /*loop through the titles and texts, gets each word and assigns to word
                  *regular expression is also used to remove commas, colons and fullstops.
                  */
@@ -95,7 +96,7 @@ Index.prototype.searchIndex = function(terms) {
     /*Loop through booklist to check if the terms exist, then push the corresponding index
     into an array*/
     for (var word in bookList) {
-        for (var j in params) {
+        for (var j = 0; j < params.length; j++) {
             if (word === params[j]) {
                 for (var k in bookList[word]) {
                     check.push(parseInt(bookList[word][k]));
