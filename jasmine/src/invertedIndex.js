@@ -1,6 +1,6 @@
 'use strict';
 
-/* function readJson loads the books.json file in a synchronous way because the data is needed 
+/* function readJson loads the books.json file in a synchronous way because the data is needed
  * during page load.
  */
 function readJson(filePath) {
@@ -41,7 +41,7 @@ Index.prototype.createIndex = function(filePath) {
                 var word = words[j].replace(/[:,.]/g, '');
                 //Check if Object bookIndex has key, word
                 if (bookIndex.hasOwnProperty(word)) {
-                    /*if it does, we push the value which is the array position in array 
+                    /*if it does, we push the value which is the array position in array
                      *called positionArray
                      */
                     var positionArray = bookIndex[word];
@@ -58,8 +58,8 @@ Index.prototype.createIndex = function(filePath) {
                             bookIndex[word] = positionArray;
                         }
                     }
-                    /*else if position exists,assign bookIndex[word] as keys and [parseInt(i)] as 
-                     *corresponding values of object bookIndex   
+                    /*else if position exists,assign bookIndex[word] as keys and [parseInt(i)] as
+                     *corresponding values of object bookIndex
                      */
                 } else {
                     bookIndex[word] = [parseInt(i)];
@@ -67,7 +67,7 @@ Index.prototype.createIndex = function(filePath) {
             }
         }
     }
-    /*return object "bookIndex", containing the words and corresponding 
+    /*return object "bookIndex", containing the words and corresponding
      *index when createIndex method is called
      */
     return bookIndex;
