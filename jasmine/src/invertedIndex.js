@@ -1,14 +1,15 @@
 'use strict';
 
 var Index = function() {
-  this.file;
-  this.index;
+  this.file = null;
+  this.docs = null;
+  this.index = null;
 };
 
 /* function readJson loads the books.json file in a synchronous way because the data is needed
  * during page load.
  */
-function loadJson(filePath) {
+Index.prototype.loadJson = function(filePath) {
   var jsonDocument;
   $.ajax({
     'async': false,
@@ -18,14 +19,16 @@ function loadJson(filePath) {
       jsonDocument = data;
     }
   });
-  return jsonDocument;
-}
+  this.docs = jsonDocument;
+  return this.docs;
+};
 
 //This method creates an Index from the argument, and assigns it to an instance variable
 Index.prototype.createIndex = function(filePath) {
   this.file = filePath;
-  var jsonFile = loadJson(filePath),
-    result = {};
+  var result = {};
+  this.loadJson(filePath);
+  var jsonFile = this.docs;
   jsonFile.forEach(function(element, index) {
     //This removes 'text', 'title', and other characters from json object
     var jsonString = JSON.stringify(element)

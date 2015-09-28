@@ -1,14 +1,22 @@
 'use strict';
 
 describe('Index', function() {
+  var index, jsonFile = [],
+    result;
 
-  var jsonFile = loadJson('books.json');
-  var index = new Index();
-  index.createIndex('books.json');
-  var result = index.getIndex('books.json');
+  beforeEach(function() {
+    index = new Index();
+    index.createIndex('books.json');
+    result = index.getIndex('books.json');
+  });
 
   describe('Read book data', function() {
-    it('should check that JSON array is not empty', function() {
+    it('should check that loadJson is empty before the JSON file is loaded', function() {
+      expect(jsonFile.length).toBe(0);
+    });
+
+    it('should check that JSON array is not empty after JSON file is loaded', function() {
+      jsonFile = index.loadJson('books.json');
       expect(jsonFile.length).not.toBe(0);
     });
 
@@ -16,6 +24,7 @@ describe('Index', function() {
       for (var i in jsonFile) {
         for (var k in jsonFile[i]) {
           expect(typeof jsonFile[i][k]).toEqual(jasmine.any(String));
+          expect(typeof jsonFile[i][k]).not.toBe('');
         }
       }
     });
@@ -36,10 +45,6 @@ describe('Index', function() {
   });
 
   describe("Search Index", function() {
-    it('should be defined', function() {
-      expect(index.searchIndex()).toBeDefined();
-    });
-
     it('should ensure index returns the correct results when searched.', function() {
       expect(index.searchIndex('Lord')).toEqual([1]);
       expect(index.searchIndex('of')).toEqual([0, 1]);
